@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 // import { useQuery } from "@tanstack/react-query"
 import axios from "axios";
 import { themoviedbApi } from "../utils/request";
-import { GENRES_URL } from "../utils/constraints";
+import { GENRES_URL } from "../utils/constants";
 import useGenre from "../Hooks/useGenre";
 import { Genre } from "../Models/Genre";
 

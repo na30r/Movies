@@ -9,6 +9,7 @@ import { Menu } from "antd";
 import useGenre from "../Hooks/useGenre";
 import { Genre } from "../Models/Genre";
 import useMovie from "../Hooks/useMovie";
+import { Link, useNavigate } from "react-router-dom";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -36,12 +37,14 @@ const SideNav: React.FC = () => {
         "Categories",
         "sub1",
         <MailOutlined />,
-        data?.map((a: Genre) => getItem(a.name, a.id))
+        data?.map((a: Genre) =>
+          getItem(<Link to={`/movies/${a.id}`}>{a.name}</Link>, a.id)
+        )
       ),
     ];
   }
   const onClick: MenuProps["onClick"] = (e) => {
-    // var x = useMovie(e.key)
+    //  useNavigate('/movies/'+e.key)
   };
 
   return (

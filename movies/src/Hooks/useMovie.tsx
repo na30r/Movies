@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { themoviedbApi } from "../utils/request";
-import { MOVIE_LIST_URL } from "../utils/constraints";
+import { MOVIE_LIST_URL } from "../utils/constants";
 
 export default function useMovie(catId: number | null = null) {
   const fn = () => {
@@ -12,7 +12,7 @@ export default function useMovie(catId: number | null = null) {
         },
       })
       .then((a) => {
-        console.log(a.data);
+        console.log("movie fetched", a);
         return a.data.results;
       });
   };
@@ -25,17 +25,3 @@ export default function useMovie(catId: number | null = null) {
   });
 }
 //"discover/movie?without_genres=16"
-interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  original_language: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}

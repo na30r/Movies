@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { themoviedbApi } from "../utils/request";
-import { GENRES_URL } from "../utils/constraints";
+import { GENRES_URL } from "../utils/constants";
 import { Genre } from "../Models/Genre";
 
 export default function useGenre() {
