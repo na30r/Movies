@@ -1,19 +1,11 @@
-import React from "react";
 import { useQuery } from "react-query";
-import { themoviedbApi } from "../utils/request";
-import { GENRES_URL } from "../utils/constants";
 import { Genre } from "../Models/Genre";
+import { GenreService } from "../services/GenreService";
 
 export default function useGenre() {
-  const fn = () => {
-    return themoviedbApi.get(GENRES_URL).then((a) => {
-      console.log("genres fetched");
-      return a.data.genres;
-    });
-  };
-  return useQuery<Genre[]>({
+  return useQuery<{ genres: Genre[] }>({
     queryKey: ["genres"],
-    queryFn: fn,
+    queryFn: GenreService.getAll,
     refetchOnReconnect: false,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

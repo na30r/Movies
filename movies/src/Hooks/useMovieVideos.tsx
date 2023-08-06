@@ -1,14 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { themoviedbApi } from "../utils/request";
-import {
-  BACK_PATH,
-  CREDITS_URL,
-  IMAGE_PATH,
-  MOVIE_ID_PLACEHOLDER,
-  MOVIE_IMAGES_URL,
-  MOVIE_VIDEOS_URL,
-} from "../utils/constants";
+import { MOVIE_ID_PLACEHOLDER, MOVIE_VIDEOS_URL } from "../utils/constants";
 import { MovieImage } from "../Models/MovieImage";
 
 export default function useMovieVideos(movieId: number) {

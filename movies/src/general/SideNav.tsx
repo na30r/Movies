@@ -31,13 +31,17 @@ function getItem(
 
 const SideNav: React.FC = () => {
   const { data, isLoading, error } = useGenre();
+  if (isLoading) {
+    return <></>;
+  }
+
   function getItems() {
     return [
       getItem(
         "Categories",
         "sub1",
         <MailOutlined />,
-        data?.map((a: Genre) =>
+        data?.genres.map((a: Genre) =>
           getItem(<Link to={`/movies/${a.id}`}>{a.name}</Link>, a.id)
         )
       ),

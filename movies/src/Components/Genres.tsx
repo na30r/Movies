@@ -11,9 +11,9 @@ export default function Genres() {
   return (
     <>
       {isLoading && <span> is loading ...</span>}
-      {data?.map((a: Genre) => (
+      {/* {data?.data.map((a: Genre) => (
         <span key={a.id}> {a.name}</span>
-      ))}
+      ))} */}
     </>
   );
 }

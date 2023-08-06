@@ -9,34 +9,18 @@ import {
   Avatar,
   Radio,
   Switch,
-  Upload,
-  message,
 } from "antd";
 
 import {
   FacebookOutlined,
   TwitterOutlined,
   InstagramOutlined,
-  VerticalAlignTopOutlined,
 } from "@ant-design/icons";
-import BgProfile from "../../assets/images/bg-profile.jpg";
-import profilavatar from "../../assets/images/face-1.jpg";
-import convesionImg from "../../assets/images/face-3.jpg";
-import convesionImg2 from "../../assets/images/face-4.jpg";
-import convesionImg3 from "../../assets/images/face-5.jpeg";
-import convesionImg4 from "../../assets/images/face-6.jpeg";
-import convesionImg5 from "../../assets/images/face-2.jpg";
-import project1 from "../../assets/images/home-decor-1.jpeg";
-import project2 from "../../assets/images/home-decor-2.jpeg";
-import project3 from "../../assets/images/home-decor-3.jpeg";
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import { themoviedbApi } from "../../utils/request";
 import { BACK_PATH, IMAGE_PATH } from "../../utils/constants";
 import useMovieDetail from "../../Hooks/useMovieDetail";
 import useCredits from "../../Hooks/useCredits";
 import useMovieImages from "../../Hooks/useMovieImages";
-import usePersonSearch from "../../Hooks/usePersonSearch";
 
 function Detail() {
   const { movieId } = useParams();
@@ -94,13 +78,13 @@ function Detail() {
                     <Avatar
                       size={90}
                       shape="square"
-                      src={BACK_PATH + data.poster_path}
+                      src={BACK_PATH + data?.poster_path}
                     />
                   </Col>
                   <Col lg={12}>
                     <div className="avatar-info">
-                      <h4 className="font-semibold m-0">{data.title}</h4>
-                      <p>{data.tagline}</p>
+                      <h4 className="font-semibold m-0">{data?.title}</h4>
+                      <p>{data?.tagline}</p>
                     </div>
                   </Col>
                 </Row>
@@ -134,20 +118,20 @@ function Detail() {
             extra={<Button type="link">{pencil}</Button>}
             bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
           >
-            <p className="text-dark"> {data.overview}. </p>
+            <p className="text-dark"> {data?.overview}. </p>
             <hr className="my-25" />
             <Descriptions title="Oliver Liam">
               <Descriptions.Item label="homepage" span={3}>
-                {data.homepage}
+                {data?.homepage}
               </Descriptions.Item>
               <Descriptions.Item label="Original language" span={3}>
-                {data.original_language}
+                {data?.original_language}
               </Descriptions.Item>
               <Descriptions.Item label="Popularity" span={3}>
-                {data.popularity}
+                {data?.popularity}
               </Descriptions.Item>
               <Descriptions.Item label="Release date" span={3}>
-                {data.release_date}
+                {data?.release_date}
               </Descriptions.Item>
               <Descriptions.Item label="Social" span={3}>
                 <a href="#pablo" className="mx-5 px-5">
@@ -277,7 +261,7 @@ function Detail() {
         className="header-solid mb-24"
         title={
           <>
-            <h6 className="font-semibold">{data.title} backdrops</h6>
+            <h6 className="font-semibold">{data?.title} backdrops</h6>
           </>
         }
       >
@@ -301,7 +285,7 @@ function Detail() {
         className="header-solid mb-24"
         title={
           <>
-            <h6 className="font-semibold">{data.title} Posters</h6>
+            <h6 className="font-semibold">{data?.title} Posters</h6>
           </>
         }
       >

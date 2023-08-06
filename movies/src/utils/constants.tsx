@@ -15,3 +15,6 @@ export const MOVIE_REVIEWS_URL = `${BASE_MOVIE_URL}/{movieId}/reviews`;
 export const MOVIE_VIDEOS_URL = `${BASE_MOVIE_URL}/{movieId}/videos`;
 export const PERSON_SEARCH_URL =
   "https://api.themoviedb.org/3/search/person?query=";
+
+export const Company_SEARCH_URL =
+  "https://api.themoviedb.org/3/search/company?query=";

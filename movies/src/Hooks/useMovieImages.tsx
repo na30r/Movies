@@ -9,17 +9,14 @@ import {
   MOVIE_IMAGES_URL,
 } from "../utils/constants";
 import { MovieImage } from "../Models/MovieImage";
+import MovieService from "../services/MovieService";
 
 export default function useMovieImages(movieId: number) {
   console.log("useCredits fetched");
   return useQuery({
     queryKey: ["images", movieId],
     queryFn: () => {
-      const Url = MOVIE_IMAGES_URL.replace(
-        MOVIE_ID_PLACEHOLDER,
-        movieId.toString()
-      );
-      return themoviedbApi.get<MovieImage>(Url).then((a) => a.data);
+      return new MovieService(movieId).getImages(movieId);
     },
   });
 }
