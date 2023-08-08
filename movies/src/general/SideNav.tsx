@@ -8,7 +8,6 @@ import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import useGenre from "../Hooks/useGenre";
 import { Genre } from "../Models/Genre";
-import useMovie from "../Hooks/useMovie";
 import { Link, useNavigate } from "react-router-dom";
 
 type MenuItem = Required<MenuProps>["items"][number];

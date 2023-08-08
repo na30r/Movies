@@ -8,7 +8,7 @@ function ActorDetail() {
   const { personName } = useParams();
   const { data: personSearchData, isLoading: personSearchIsLoading } =
     usePersonSearch(personName);
-
+  var person = personSearchData?.results[0];
   const pencil = [
     <svg
       width="20"
@@ -55,15 +55,15 @@ function ActorDetail() {
                     <Avatar
                       size={90}
                       shape="square"
-                      src={BACK_PATH + personSearchData?.profile_path}
+                      src={BACK_PATH + person?.profile_path}
                     />
                   </Col>
                   <Col lg={12}>
                     <div className="avatar-info">
                       <h4 className="font-semibold m-0">
-                        {personSearchData?.original_name}
+                        {person?.original_name}
                         <br></br>
-                        original name : {personSearchData?.name}
+                        original name : {person?.name}
                       </h4>
                     </div>
                   </Col>
@@ -98,14 +98,12 @@ function ActorDetail() {
             extra={<Button type="link">{pencil}</Button>}
             bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
           >
-            <p className="text-dark"> {personSearchData?.name}. </p>
-            <p className="text-dark">Gender: {personSearchData?.gender}</p>
+            <p className="text-dark"> {person?.name}. </p>
+            <p className="text-dark">Gender: {person?.gender}</p>
             <p className="text-dark">
-              known for : {personSearchData?.known_for_department}.
+              known for : {person?.known_for_department}.
             </p>
-            <p className="text-dark">
-              Popularity : {personSearchData?.popularity}.
-            </p>
+            <p className="text-dark">Popularity : {person?.popularity}.</p>
             <hr className="my-25" />
           </Card>
         </Col>
@@ -115,12 +113,12 @@ function ActorDetail() {
         className="header-solid mb-24"
         title={
           <>
-            <h6 className="font-semibold">{personSearchData?.name} Movies</h6>
+            <h6 className="font-semibold">{person?.name} Movies</h6>
           </>
         }
       >
         <Row gutter={[24, 24]}>
-          {personSearchData?.known_for.map((p, index) => (
+          {person?.known_for.map((p, index) => (
             <Col span={24} md={12} xl={6} key={index}>
               {" "}
               <Link to={`/movies/detail/${p.id}`}>

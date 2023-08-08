@@ -24,43 +24,73 @@ import useGenre from "../../Hooks/useGenre";
 import form from "antd/es/form";
 import useCompany from "../../Hooks/useCompany";
 import { Company } from "../../Models/Company";
+import { MovieParams, sortBy } from "../../Models/MovieParams";
+import usePersonSearch from "../../Hooks/usePersonSearch";
+import { Person } from "../../Models/Person";
 
 export default function Movies() {
   const [pageParam, setpageParam] = useState(1);
+
   const { categoryId } = useParams();
+  useEffect(() => {
+    setselectedGenres([Number(categoryId)]);
+  }, [categoryId]);
+
   const { data: genreList } = useGenre();
+  const [selectedGenres, setselectedGenres] = useState<number[]>([
+    Number(categoryId),
+  ]);
+
   const [selectedCompany, setselectedCompany] = useState<string>();
   const [companySearchSelect, setcompanySearchSelect] = useState<string>();
   const { data: companyList, isLoading: companyListisLoading } =
     useCompany(companySearchSelect);
+
   const [selectedYear, setselectedYear] = useState<number>();
+
   const [selectedKeyword, setselectedKeyword] = useState<string>();
-  const [companyOptions, setcompanyOptions] = useState<[]>();
+
+  const [sortBy, setsortBy] = useState();
+
+  const [selectedPerson, setselectedPerson] = useState<string>();
+  const [personSearchSelect, setpersonSearchSelect] = useState<string>();
+  const { data: personSearchList, isLoading: personSearchIsLoading } =
+    usePersonSearch(personSearchSelect ?? " ");
 
   const options: SelectProps["options"] = genreList?.genres.map((a) => {
     return { value: a.id, label: a.name };
   });
-  const [form] = Form.useForm();
-  const [selectedGenres, setselectedGenres] = useState<any>([
-    Number(categoryId),
-  ]);
+
   const years = Array.from(
     { length: 2031 - 1990 },
     (_, index) => 1990 + index
   ).reverse();
 
   var { data, error, isLoading, fetchNextPage } = useMovie({
-    with_genres: selectedGenres,
+    with_genres: selectedGenres.join(","),
     primary_release_year: selectedYear,
     with_keywords: selectedKeyword,
     with_companies: selectedCompany,
+    sort_by: sortBy,
+    with_crew: selectedPerson,
   });
 
   const navigate = useNavigate();
 
+  const sortByOptions: { label: string; value: sortBy }[] = [
+    { label: "popularity", value: "popularity.desc" },
+    { label: "revenue desc", value: "revenue.desc" },
+    { label: "revenue asc", value: "revenue.asc" },
+    { label: "release date desc", value: "primary_release_date.desc" },
+    { label: "release date asc", value: "primary_release_date.asc" },
+    { label: "vote count desc", value: "vote_count.desc" },
+    { label: "vote average desc", value: "vote_average.desc" },
+    { label: "vote average asc", value: "vote_average.asc" },
+  ];
+
   return (
     <>
-      {console.log("ren")}
+      {console.log(data)}
       <div style={{ margin: "30px auto" }}>
         <Form>
           <Row gutter={[16, 16]}>
@@ -68,44 +98,49 @@ export default function Movies() {
               <Form.Item label="Genres">
                 <Select
                   mode="multiple"
-                  // size={size}
-                  placeholder="Please select"
-                  defaultValue={selectedGenres}
-                  // onChange={genreChange}
-                  style={{ width: "100%" }}
+                  value={selectedGenres}
+                  onChange={(e) => setselectedGenres(e)}
                   options={options}
                 />
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label="Genres">
+              <Form.Item label="Actor">
                 <Select
-                  mode="multiple"
-                  // size={size}
-                  placeholder="Please select"
-                  defaultValue={selectedGenres}
-                  // onChange={genreChange}
+                  showSearch
+                  placeholder="Select an Actor"
+                  showArrow={false}
+                  filterOption={false}
+                  onChange={(e) => setselectedPerson(e)}
+                  onSearch={(e) => {
+                    e.length > 2 && setpersonSearchSelect(e);
+                  }}
                   style={{ width: "100%" }}
-                  options={options}
-                />
+                  loading={personSearchIsLoading}
+                >
+                  {personSearchList?.results.map((p: Person) => (
+                    <Select.Option key={p.id} value={p.id}>
+                      <img
+                        src={`${IMAGE_PATH}${p.profile_path}`}
+                        alt={p.name}
+                        style={{ width: 16, marginRight: 8 }}
+                      />
+                      {p.name} / <small>{p.known_for_department} </small>
+                    </Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="companies">
-                {/* <Input
-                  type="number"
-                  onChange={(e) => setselectedCompany(e.target.value)}
-                  style={{ width: "100%" }}
-                /> */}
                 <Select
-                  // mode="multiple"
                   showSearch
                   placeholder="Select an option"
                   defaultActiveFirstOption={false}
                   showArrow={false}
                   filterOption={false}
                   onChange={(e) => setselectedCompany(e)}
-                  onSearch={(e) => setcompanySearchSelect(e)}
+                  onSearch={(e) => e.length > 2 && setcompanySearchSelect(e)}
                   style={{ width: "100%" }}
                   loading={companyListisLoading}
                 >
@@ -128,10 +163,15 @@ export default function Movies() {
             <Col span={8}>
               <Form.Item label="Sortby">
                 <Select
-                  defaultValue={selectedGenres}
                   style={{ width: "100%" }}
-                  options={options}
-                />
+                  onChange={(e) => setsortBy(e)}
+                >
+                  {sortByOptions.map((a) => (
+                    <Select.Option key={a.value} value={a.value}>
+                      {a.label}
+                    </Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -160,36 +200,32 @@ export default function Movies() {
           </Row>
         </Form>
       </div>
-      <Button
-        onClick={() => {
-          console.log(categoryId);
-        }}
-      />
+
       <Row gutter={16}>
-        {data?.pages?.map((page: any) => {
-          // console.log(a, "sad");
-          return page.results.map((a: any) => {
+        {data?.pages?.map((page) => {
+          return page.results.map((a) => {
             return (
-              <Col key={a.id} lg={8} xl={6} sm={12} style={{ padding: 10 }}>
+              <Col
+                key={a.id}
+                lg={8}
+                xl={6}
+                sm={12}
+                xs={24}
+                style={{ padding: 10 }}
+              >
                 <Card
+                  onClick={() => navigate(`/movies/detail/${a.id}`)}
                   key={a.id}
                   style={{ width: 300 }}
                   cover={<img alt="example" src={IMAGE_PATH + a.poster_path} />}
-                  actions={[
-                    <SettingOutlined
-                      onClick={() => navigate(`/movies/detail/${a.id}`)}
-                      key="setting"
-                    />,
-                    <EditOutlined key="edit" />,
-                    <EllipsisOutlined key="ellipsis" />,
-                  ]}
                 >
                   <Meta
-                    avatar={
-                      <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-                    }
                     title={a.title}
-                    description={a.overview}
+                    description={
+                      a.overview.length < 100
+                        ? a.overview
+                        : a.overview.slice(0, 150) + "..."
+                    }
                   />
                 </Card>
               </Col>

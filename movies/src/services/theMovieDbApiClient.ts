@@ -1,4 +1,4 @@
-import { MovieParams } from "../Hooks/useMovie";
+import { MovieParams } from "../Models/MovieParams";
 import {
   MOVIE_LIST_URL,
   THEMOVIEDB_BASE_URL,
@@ -24,7 +24,6 @@ export class theMovieDbApiClient<T> {
   getAll = (
     params: MovieParams | object | undefined = undefined
   ): Promise<T> => {
-    console.log(params, "ddddfasd");
     return this.themoviedbApi.get<T>(this.endpoint, { params }).then((a) => {
       return a.data;
     });

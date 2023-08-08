@@ -1,4 +1,4 @@
-import { MovieParams } from "../Hooks/useMovie";
+import { MovieParams } from "../Models/MovieParams";
 import { Credits } from "../Models/Credits";
 import { Genre } from "../Models/Genre";
 import { Movie } from "../Models/Movie";

@@ -8,16 +8,10 @@ import { Person } from "../Models/Person";
 export default function usePersonSearch(person: string | null = null) {
   const fn = () => {
     return themoviedbApi
-      .get<PageResult<Person>>(
-        PERSON_SEARCH_URL + person
-        //  {
-        // params: {
-        //   query: person,
-        // },      }
-      )
+      .get<PageResult<Person>>(PERSON_SEARCH_URL + person)
       .then((a) => {
         console.log("PersonSearch fetched");
-        return a.data.results[0];
+        return a.data;
       });
   };
   return useQuery({
