@@ -13,8 +13,13 @@ import {
   SelectProps,
 } from "antd";
 import {
+  CheckOutlined,
+  CloseOutlined,
   EditOutlined,
   EllipsisOutlined,
+  HeartOutlined,
+  LikeOutlined,
+  PlusOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
@@ -27,10 +32,15 @@ import { Company } from "../../Models/Company";
 import { MovieParams, sortBy } from "../../Models/MovieParams";
 import usePersonSearch from "../../Hooks/usePersonSearch";
 import { Person } from "../../Models/Person";
+import { useDispatch, useSelector } from "react-redux";
+import { addMovieFavorite, addWatchLater } from "../../redux/Profile";
+import { selectIsAuthenticated } from "../../redux/auth";
 
 export default function Movies() {
+  const dispatch = useDispatch();
   const [pageParam, setpageParam] = useState(1);
-
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  console.log(isAuthenticated);
   const { categoryId } = useParams();
   useEffect(() => {
     setselectedGenres([Number(categoryId)]);
@@ -214,10 +224,28 @@ export default function Movies() {
                 style={{ padding: 10 }}
               >
                 <Card
-                  onClick={() => navigate(`/movies/detail/${a.id}`)}
+                  // onClick={() => navigate(`/movies/detail/${a.id}`)}
                   key={a.id}
                   style={{ width: 300 }}
                   cover={<img alt="example" src={IMAGE_PATH + a.poster_path} />}
+                  actions={[
+                    <HeartOutlined
+                      key="setting"
+                      onClick={() => {
+                        isAuthenticated
+                          ? dispatch(addMovieFavorite(a))
+                          : navigate("/signin/");
+                      }}
+                    />,
+                    <PlusOutlined
+                      key="setting"
+                      onClick={() =>
+                        isAuthenticated
+                          ? dispatch(addWatchLater(a))
+                          : navigate("/signin/")
+                      }
+                    />,
+                  ]}
                 >
                   <Meta
                     title={a.title}

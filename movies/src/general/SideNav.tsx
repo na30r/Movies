@@ -44,6 +44,9 @@ const SideNav: React.FC = () => {
           getItem(<Link to={`/movies/${a.id}`}>{a.name}</Link>, a.id)
         )
       ),
+      getItem("Profile", "sub2", <MailOutlined />, [
+        getItem(<Link to={`/profile`}>Profile</Link>, ""),
+      ]),
     ];
   }
   const onClick: MenuProps["onClick"] = (e) => {
