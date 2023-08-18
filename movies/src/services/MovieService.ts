@@ -28,7 +28,6 @@ class MovieService extends theMovieDbApiClient<PageResult<Movie>> {
     return this.themoviedbApi
       .get<PageResult<Company>>(`${Company_SEARCH_URL}${company}`)
       .then((a) => {
-        console.log(a.data);
         return a.data;
       });
   };

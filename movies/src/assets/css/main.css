@@ -3046,4 +3046,44 @@ body {
     path {
     fill: #8c8c8c;
   }
+  /* .nplaceholder {
+    background-image: url('https://placehold.co/440x660?text=loading...');
+    width: 100%;
+    height: 100%;
+    background-size: "cover";
+    background-position: "center";  height: 440,
+  } */
+
+  .nplaceholder {
+    background-image: url('https://placehold.co/440x660?text=loading...');
+    height: 440px !important;
+  }
+
+  .posterPlaceholder {
+    background-image: url('https://placehold.co/1066x600?text=loading...') !important;
+    height:200px !important;
+
+  }
+  .imgplaceholder {
+    width: 100%;
+    height: 100%;
+    background-size: "cover" !important;
+    background-position: "center" !important; 
+  }
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
   
+  .image-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }

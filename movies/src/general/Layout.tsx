@@ -53,10 +53,10 @@ const AppLayout: React.FC = () => {
           }}
         >
           <Row>
-            <Col lg={20}>
+            <Col lg={4}>
               <b>Movies app by nasir</b>
             </Col>
-            <Col lg={4}>
+            <Col offset={15} lg={4}>
               {isAuthenticated ? (
                 <Row>
                   <Col lg={18}>

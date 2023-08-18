@@ -9,6 +9,7 @@ import {
   Avatar,
   Radio,
   Switch,
+  Spin,
 } from "antd";
 
 import {
@@ -21,7 +22,20 @@ import { BACK_PATH, IMAGE_PATH } from "../../utils/constants";
 import useMovieDetail from "../../Hooks/useMovieDetail";
 import useCredits from "../../Hooks/useCredits";
 import useMovieImages from "../../Hooks/useMovieImages";
-
+import {
+  pencil,
+  heart,
+  outlineHeart,
+  plus,
+  yellowPlus,
+} from "../../assets/svg-files";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addMovieFavorite,
+  addWatchLater,
+  removeMovieFavorite,
+  removeWatchLater,
+} from "../../redux/Profile";
 function Detail() {
   const { movieId } = useParams();
   //console.log(movieId);
@@ -32,38 +46,20 @@ function Detail() {
   const { data: movieImagesData, isLoading: movieImagesIsLoading } =
     useMovieImages(Number(movieId));
 
-  const pencil = [
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      key={0}
-    >
-      <path
-        d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z"
-        className="fill-gray-7"
-      ></path>
-      <path
-        d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z"
-        className="fill-gray-7"
-      ></path>
-    </svg>,
-  ];
-
-  if (isLoading || creditsIsLoading || movieImagesIsLoading) {
-    return <>isloading</>;
-  }
+  const dispatch = useDispatch();
+  const userMoviesSelector = useSelector((a: any) => a.Profile);
   return (
-    <>
+    <Spin
+      spinning={isLoading || creditsIsLoading || movieImagesIsLoading}
+      size="large"
+    >
       <div
         className="profile-nav-bg"
         style={{
           backgroundImage: "url(" + BACK_PATH + data?.backdrop_path + ")",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: 300,
+          height: 500,
         }}
       ></div>
       <Card
@@ -83,8 +79,42 @@ function Detail() {
                   </Col>
                   <Col lg={12}>
                     <div className="avatar-info">
-                      <h4 className="font-semibold m-0">{data?.title}</h4>
+                      <h4 className="font-semibold m-0">{data?.title}</h4>{" "}
                       <p>{data?.tagline}</p>
+                      {userMoviesSelector.favorite.some(
+                        (a: any) => a.id == data?.id
+                      ) ? (
+                        <Button
+                          type="link"
+                          onClick={() => dispatch(removeMovieFavorite(data))}
+                        >
+                          {heart()}
+                        </Button>
+                      ) : (
+                        <Button
+                          type="link"
+                          onClick={() => dispatch(addMovieFavorite(data))}
+                        >
+                          {outlineHeart()}
+                        </Button>
+                      )}
+                      {userMoviesSelector.watchLater.some(
+                        (a: any) => a.id == data?.id
+                      ) ? (
+                        <Button
+                          type="link"
+                          onClick={() => dispatch(removeWatchLater(data))}
+                        >
+                          {yellowPlus()}
+                        </Button>
+                      ) : (
+                        <Button
+                          type="link"
+                          onClick={() => dispatch(addWatchLater(data))}
+                        >
+                          {plus()}
+                        </Button>
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -212,49 +242,6 @@ function Detail() {
             />
           </Card>
         </Col>
-        <Col span={24} md={8} className="mb-24 ">
-          <Card
-            bordered={false}
-            className="header-solid h-full"
-            title={<h6 className="font-semibold m-0">Platform Settings</h6>}
-          >
-            <ul className="list settings-list">
-              <li>
-                <h6 className="list-header text-sm text-muted">ACCOUNT</h6>
-              </li>
-              <li>
-                <Switch defaultChecked />
-
-                <span>Email me when someone follows me</span>
-              </li>
-              <li>
-                <Switch />
-                <span>Email me when someone answers me</span>
-              </li>
-              <li>
-                <Switch defaultChecked />
-                <span>Email me when someone mentions me</span>
-              </li>
-              <li>
-                <h6 className="list-header text-sm text-muted m-0">
-                  APPLICATION
-                </h6>
-              </li>
-              <li>
-                <Switch defaultChecked />
-                <span>New launches and projects</span>
-              </li>
-              <li>
-                <Switch defaultChecked />
-                <span>Monthly product updates</span>
-              </li>
-              <li>
-                <Switch defaultChecked />
-                <span>Subscribe to newsletter</span>
-              </li>
-            </ul>
-          </Card>
-        </Col>
       </Row>
       <Card
         bordered={false}
@@ -271,7 +258,24 @@ function Detail() {
               <Card
                 bordered={false}
                 className="card-project"
-                cover={<img alt="example" src={BACK_PATH + p.file_path} />}
+                cover={
+                  <div
+                    className="image-container "
+                    style={{
+                      backgroundImage:
+                        "url(https://placehold.co/1066x600?text=loading...)",
+                      // maxHeight: 180,
+                      minHeight: 220,
+                      borderRadius: 10,
+                    }}
+                  >
+                    <img
+                      className="image-content"
+                      alt="example"
+                      src={BACK_PATH + p.file_path}
+                    />
+                  </div>
+                }
               >
                 <div className="card-tag">{p.vote_count} Vote</div>
                 <Row gutter={[6, 0]} className="card-footer"></Row>
@@ -295,7 +299,24 @@ function Detail() {
               <Card
                 bordered={false}
                 className="card-project"
-                cover={<img alt="example" src={BACK_PATH + p.file_path} />}
+                cover={
+                  <div
+                    className="image-container "
+                    style={{
+                      backgroundImage:
+                        "url(https://placehold.co/1066x600?text=loading...)",
+                      // maxHeight: 180,
+                      minHeight: 220,
+                      borderRadius: 10,
+                    }}
+                  >
+                    <img
+                      className="image-content"
+                      alt="example"
+                      src={BACK_PATH + p.file_path}
+                    />
+                  </div>
+                }
               >
                 <div className="card-tag">{p.vote_count} Vote</div>
                 {/* <h5>{p.title}</h5>
@@ -320,7 +341,7 @@ function Detail() {
           ))}
         </Row>
       </Card>
-    </>
+    </Spin>
   );
 }
 
