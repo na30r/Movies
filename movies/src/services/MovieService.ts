@@ -15,6 +15,7 @@ import {
   Company_SEARCH_URL,
 } from "../utils/constants";
 import { theMovieDbApiClient } from "./theMovieDbApiClient";
+import { MovieInfoCardItem } from "../Components/common/cards/CastListCard";
 
 class MovieService extends theMovieDbApiClient<PageResult<Movie>> {
   // public movieId?: number;
@@ -25,11 +26,9 @@ class MovieService extends theMovieDbApiClient<PageResult<Movie>> {
 
   getCompany = (company?: string): Promise<PageResult<Company>> => {
     console.log(company, "com");
-    return this.themoviedbApi
-      .get<PageResult<Company>>(`${Company_SEARCH_URL}${company}`)
-      .then((a) => {
-        return a.data;
-      });
+    return this.themoviedbApi.get<PageResult<Company>>(`${Company_SEARCH_URL}${company}`).then((a) => {
+      return a.data;
+    });
   };
 
   getGenres() {
@@ -39,9 +38,7 @@ class MovieService extends theMovieDbApiClient<PageResult<Movie>> {
   }
   getImages(movieId: number): Promise<MovieImage> {
     return this.themoviedbApi
-      .get<MovieImage>(
-        MOVIE_IMAGES_URL.replace(MOVIE_ID_PLACEHOLDER, movieId?.toString())
-      )
+      .get<MovieImage>(MOVIE_IMAGES_URL.replace(MOVIE_ID_PLACEHOLDER, movieId?.toString()))
       .then((a) => a.data);
   }
   getVideo() {}
@@ -51,10 +48,7 @@ class MovieService extends theMovieDbApiClient<PageResult<Movie>> {
   //   });
   // }
   getCast(movieId: number) {
-    const creditsUrl = CREDITS_URL.replace(
-      MOVIE_ID_PLACEHOLDER,
-      movieId.toString()
-    );
+    const creditsUrl = CREDITS_URL.replace(MOVIE_ID_PLACEHOLDER, movieId.toString());
     return this.themoviedbApi.get<Credits>(creditsUrl).then((a) => {
       return {
         cast: a.data.cast.slice(0, 9).map((c) => {
@@ -63,14 +57,14 @@ class MovieService extends theMovieDbApiClient<PageResult<Movie>> {
             title: c.name,
             avatar: BACK_PATH + c.profile_path,
             description: c.character,
-          };
+          } as MovieInfoCardItem;
         }),
         crew: a.data.crew.slice(0, 9).map((c) => {
           return {
             title: c.name,
             avatar: BACK_PATH + c.profile_path,
             description: c.job,
-          };
+          } as MovieInfoCardItem;
         }),
       };
     });

@@ -15,27 +15,18 @@ const slice = createSlice({
       state.favorite.push(action.payload);
     },
     removeMovieFavorite: (state, action) => {
-      state.favorite = state.favorite.filter(
-        (movie) => movie.id !== action.payload.id
-      );
+      state.favorite = state.favorite.filter((movie) => movie.id !== action.payload.id);
     },
     addWatchLater: (state, action) => {
       state.watchLater.push(action.payload);
     },
     removeWatchLater: (state, action) => {
-      state.watchLater = state.watchLater.filter(
-        (movie) => movie.id !== action.payload.id
-      );
+      state.watchLater = state.watchLater.filter((movie) => movie.id !== action.payload.id);
     },
   },
 });
 
 export const isLoggedIn = (a: any) => a.Profile.fullname != "";
 
-export const {
-  addMovieFavorite,
-  removeMovieFavorite,
-  addWatchLater,
-  removeWatchLater,
-} = slice.actions;
+export const { addMovieFavorite, removeMovieFavorite, addWatchLater, removeWatchLater } = slice.actions;
 export default slice.reducer;
