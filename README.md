@@ -2,6 +2,7 @@
 
 Movies is a React-based web application that empowers users to explore movies, apply various filters such as genre and actors, manage their favorite movies.
 ![Movies App Screenshot](screenshot.png)
+![Uploading Movies.png…]()
 
 ## Features and Technologies I Used
 
