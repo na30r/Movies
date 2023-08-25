@@ -17,7 +17,7 @@ function ActorDetail() {
         <Col span={24} style={{ marginTop: 100 }}>
           <Card
             className="card-profile-head"
-            bodyStyle={{ display: "none", marginTop: 401 }}
+            bodyStyle={{ display: "none" }}
             title={
               <Row justify="space-between" align="middle" gutter={[24, 0]}>
                 <Col span={24} md={12} className="col-info">
