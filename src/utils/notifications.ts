@@ -1,20 +1,14 @@
 import { Notification } from "../Models/Notification";
 
-export const favoriteAdded = (
-  movieTitle: string,
-  description: string = ""
-): Notification => {
+export const favoriteAdded = (movieTitle: string, description: string = ""): Notification => {
   return {
     type: "success",
-    title: `${movieTitle} has been added to your watch list`,
+    title: `${movieTitle} has been added to your favorites`,
     description,
   };
 };
 
-export const favoritedeleted = (
-  movieTitle: string,
-  description: string = ""
-): Notification => {
+export const favoritedeleted = (movieTitle: string, description: string = ""): Notification => {
   return {
     type: "error",
     title: `${movieTitle} has been removed from your favorites`,
@@ -22,10 +16,7 @@ export const favoritedeleted = (
   };
 };
 
-export const watchLaterAdded = (
-  movieTitle: string,
-  description: string = ""
-): Notification => {
+export const watchLaterAdded = (movieTitle: string, description: string = ""): Notification => {
   return {
     type: "success",
     title: `${movieTitle} has been added to your watch list`,
@@ -33,10 +24,7 @@ export const watchLaterAdded = (
   };
 };
 
-export const watchLaterdeleted = (
-  movieTitle: string,
-  description: string = ""
-): Notification => {
+export const watchLaterdeleted = (movieTitle: string, description: string = ""): Notification => {
   return {
     type: "error",
     title: `${movieTitle} has been removed from your watch list`,
