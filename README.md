@@ -3,7 +3,8 @@
 Movies is a React-based web application that empowers users to explore movies, apply various filters such as genre and actors, manage their favorite movies.
 ![Movies React App](https://github-production-user-asset-6210df.s3.amazonaws.com/52619226/263405737-8ccbaf71-2e49-47ef-b1df-698293f214af.png)
 
-## Features and Technologies I Used
+اگر در ایران هستید برای داشتن تجربه بهتر از vpn استفاده کنید.
+## Features and Technologies I Used  
 
 - **Movie Exploration**: Browse a wide selection of movies.
 - **Favorite Movies**: Mark movies as favorites for quick access.
@@ -12,7 +13,7 @@ Movies is a React-based web application that empowers users to explore movies, a
 - **Redux**: Store and manage user-favorite movies.
 - **TypeScript**: Utilize strong typing throughout the project.
 - **Ant Design**: Use a popular UI library for a sleek and responsive design.
-- **Custom Hooks**: Implement hooks to filter movies based on various criteria.
+- **Custom Hooks**: Implement hooks to filter movies based on various criteria. 
 - **API Integration(axios)**: Fetch movie details, posters, and overviews.
 - **Customization**: Configure filtering by genre, actors, year, keywords, and companies.
 
